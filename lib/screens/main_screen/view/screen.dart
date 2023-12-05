@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:godofdiscipline/router/router.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/day_header.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/level_info.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {
@@ -8,6 +11,17 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        onPressed: () {},
+        backgroundColor: const Color(0xFF0194FE),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: InkWell(
@@ -22,7 +36,9 @@ class MainScreen extends StatelessWidget {
         ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              AutoRouter.of(context).push(const SearchRoute());
+            },
             child: SizedBox(
               height: 30,
               width: 30,
@@ -56,6 +72,11 @@ class MainScreen extends StatelessWidget {
               SizedBox(
                 height: 17,
               ),
+              LevelInfo(),
+              SizedBox(
+                height: 28,
+              ),
+              DayHeader(),
             ],
           ),
         ),
