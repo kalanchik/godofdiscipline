@@ -6,12 +6,17 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final appRouter = AppRouter();
+  @override
   Widget build(BuildContext context) {
-    final appRouter = AppRouter();
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter.config(),
