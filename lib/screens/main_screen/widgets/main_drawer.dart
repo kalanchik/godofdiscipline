@@ -54,7 +54,9 @@ class MainDrawer extends StatelessWidget {
                       MenuTile(
                         icon: 'settings',
                         body: 'Настройки',
-                        onTap: () {},
+                        onTap: () {
+                          AutoRouter.of(context).push(const SettingsRoute());
+                        },
                       ),
                       MenuTile(
                         icon: 'category',
