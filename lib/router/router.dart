@@ -5,6 +5,7 @@ import 'package:godofdiscipline/screens/profile_screen/view/screen.dart';
 import 'package:godofdiscipline/screens/reg_screen/view/screen.dart';
 import 'package:godofdiscipline/screens/search_screen/view/screen.dart';
 import 'package:godofdiscipline/screens/settings_screen/view/screen.dart';
+import 'package:godofdiscipline/screens/stat_screen/view/screen.dart';
 
 part 'router.gr.dart';
 
@@ -18,5 +19,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: CreateActivityRoute.page, path: '/create'),
         AutoRoute(page: ProfileRoute.page, path: '/profile'),
         AutoRoute(page: SettingsRoute.page, path: '/settings'),
+        AutoRoute(page: StatRoute.page, path: '/stat'),
       ];
 }
