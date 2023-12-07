@@ -73,7 +73,9 @@ class MainDrawer extends StatelessWidget {
                       MenuTile(
                         icon: 'rules',
                         body: 'Правила игры',
-                        onTap: () {},
+                        onTap: () {
+                          AutoRouter.of(context).push(const RulesRoute());
+                        },
                       ),
                       MenuTile(
                         icon: 'support',

@@ -39,6 +39,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RegisterScreen(),
       );
     },
+    RulesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RulesScreen(),
+      );
+    },
     SearchRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -112,6 +118,20 @@ class RegisterRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RegisterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RulesScreen]
+class RulesRoute extends PageRouteInfo<void> {
+  const RulesRoute({List<PageRouteInfo>? children})
+      : super(
+          RulesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RulesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
