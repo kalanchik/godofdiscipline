@@ -80,7 +80,9 @@ class MainDrawer extends StatelessWidget {
                       MenuTile(
                         icon: 'support',
                         body: 'Написать в поддержку',
-                        onTap: () {},
+                        onTap: () {
+                          AutoRouter.of(context).push(const SupportRoute());
+                        },
                       ),
                       MenuTile(
                         icon: 'blog',
