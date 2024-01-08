@@ -15,10 +15,22 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AllTasksRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AllTasksScreen(),
+      );
+    },
     CreateActivityRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const CreateActivityScreen(),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LoginScreen(),
       );
     },
     MainRoute.name: (routeData) {
@@ -73,6 +85,20 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [AllTasksScreen]
+class AllTasksRoute extends PageRouteInfo<void> {
+  const AllTasksRoute({List<PageRouteInfo>? children})
+      : super(
+          AllTasksRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AllTasksRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [CreateActivityScreen]
 class CreateActivityRoute extends PageRouteInfo<void> {
   const CreateActivityRoute({List<PageRouteInfo>? children})
@@ -82,6 +108,20 @@ class CreateActivityRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CreateActivityRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LoginScreen]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+      : super(
+          LoginRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

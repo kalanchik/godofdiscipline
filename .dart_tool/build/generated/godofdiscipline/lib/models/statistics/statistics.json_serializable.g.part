@@ -1,0 +1,40 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+UserStatistics _$UserStatisticsFromJson(Map<String, dynamic> json) =>
+    UserStatistics(
+      curLevel: $enumDecode(_$LevelsNamesEnumMap, json['curLevel']),
+      daysTasksComplete: json['daysTasksComplete'] as int,
+      addTomorrowTasks: json['addTomorrowTasks'] as int,
+      addAllTasks: json['addAllTasks'] as int,
+      gameTime: json['gameTime'] as String,
+      gameStartDate: DateTime.parse(json['gameStartDate'] as String),
+      allAddTasks: json['allAddTasks'] as int,
+      allCompleteTasks: json['allCompleteTasks'] as int,
+    );
+
+Map<String, dynamic> _$UserStatisticsToJson(UserStatistics instance) =>
+    <String, dynamic>{
+      'curLevel': _$LevelsNamesEnumMap[instance.curLevel]!,
+      'daysTasksComplete': instance.daysTasksComplete,
+      'addTomorrowTasks': instance.addTomorrowTasks,
+      'addAllTasks': instance.addAllTasks,
+      'gameTime': instance.gameTime,
+      'gameStartDate': instance.gameStartDate.toIso8601String(),
+      'allAddTasks': instance.allAddTasks,
+      'allCompleteTasks': instance.allCompleteTasks,
+    };
+
+const _$LevelsNamesEnumMap = {
+  LevelsNames.level1: 'level1',
+  LevelsNames.level2: 'level2',
+  LevelsNames.level3: 'level3',
+  LevelsNames.level4: 'level4',
+  LevelsNames.level5: 'level5',
+  LevelsNames.level6: 'level6',
+  LevelsNames.level7: 'level7',
+  LevelsNames.level8: 'level8',
+  LevelsNames.level9: 'level9',
+  LevelsNames.level10: 'level10',
+};

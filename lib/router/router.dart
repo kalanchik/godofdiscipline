@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:godofdiscipline/screens/all_tasks_screen/view/screen.dart';
 import 'package:godofdiscipline/screens/create_activity_screen/view/screen.dart';
+import 'package:godofdiscipline/screens/login_screen/view/login.dart';
 import 'package:godofdiscipline/screens/main_screen/view/screen.dart';
 import 'package:godofdiscipline/screens/profile_screen/view/screen.dart';
 import 'package:godofdiscipline/screens/reg_screen/view/screen.dart';
@@ -24,5 +26,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: StatRoute.page, path: '/stat'),
         AutoRoute(page: RulesRoute.page, path: '/rules'),
         AutoRoute(page: SupportRoute.page, path: '/support'),
+        AutoRoute(page: AllTasksRoute.page, path: '/alltasks'),
+        AutoRoute(page: LoginRoute.page, path: '/login'),
       ];
 }

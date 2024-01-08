@@ -14,10 +14,13 @@ class MenuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       child: InkWell(
+        borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(),
           child: Row(
             children: [
               SizedBox(

@@ -46,35 +46,38 @@ class _DayHeaderState extends State<DayHeader> {
           const SizedBox(
             height: 14,
           ),
-          Offstage(
-            offstage: isOpen,
-            child: const Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    DayActionButton(
-                      backgroundColor: Color(0xFFB6DCF1),
-                      textColor: Color(0xFF108EE6),
-                      text: 'Добавить:1',
-                    ),
-                    DayActionButton(
-                      backgroundColor: Color(0xFF54D650),
-                      textColor: Colors.white,
-                      text: 'Выполнено:5',
-                    ),
-                    DayActionButton(
-                      backgroundColor: Color(0xFFEA0001),
-                      textColor: Colors.white,
-                      text: 'Осталось:4',
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 21,
-                ),
-              ],
-            ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.fastEaseInToSlowEaseOut,
+            child: isOpen
+                ? const Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          DayActionButton(
+                            backgroundColor: Color(0xFFB6DCF1),
+                            textColor: Color(0xFF108EE6),
+                            text: 'Добавить:1',
+                          ),
+                          DayActionButton(
+                            backgroundColor: Color(0xFF54D650),
+                            textColor: Colors.white,
+                            text: 'Выполнено:5',
+                          ),
+                          DayActionButton(
+                            backgroundColor: Color(0xFFEA0001),
+                            textColor: Colors.white,
+                            text: 'Осталось:4',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 21,
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
           )
         ],
       ),

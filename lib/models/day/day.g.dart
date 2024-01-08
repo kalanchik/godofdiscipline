@@ -1,0 +1,19 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'day.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Day _$DayFromJson(Map<String, dynamic> json) => Day(
+      dayDate: DateTime.parse(json['dayDate'] as String),
+      tasks: (json['tasks'] as List<dynamic>)
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$DayToJson(Day instance) => <String, dynamic>{
+      'dayDate': instance.dayDate.toIso8601String(),
+      'tasks': instance.tasks,
+    };

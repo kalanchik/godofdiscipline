@@ -2,13 +2,22 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:godofdiscipline/router/router.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/day_header.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/empty_task_tile.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/filter_button.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/level_info.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/main_drawer.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/task_tile.dart';
 
 @RoutePage()
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  bool isOpen = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,18 +37,6 @@ class MainScreen extends StatelessWidget {
       ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        // leading: InkWell(
-        //   onTap: () {
-        //     Scaffold.of(context).openDrawer();
-        //   },
-        //   child: SizedBox(
-        //     height: 10,
-        //     width: 28,
-        //     child: Image.asset(
-        //       'assets/icons/menu.png',
-        //     ),
-        //   ),
-        // ),
         actions: [
           InkWell(
             onTap: () {
@@ -56,16 +53,7 @@ class MainScreen extends StatelessWidget {
           const SizedBox(
             width: 14,
           ),
-          InkWell(
-            onTap: () {},
-            child: SizedBox(
-              height: 30,
-              width: 30,
-              child: Image.asset(
-                'assets/icons/more_horiz.png',
-              ),
-            ),
-          ),
+          const FilterButton(),
           const SizedBox(
             width: 16,
           ),
@@ -83,6 +71,20 @@ class MainScreen extends StatelessWidget {
                 height: 28,
               ),
               DayHeader(),
+              TaskTile(),
+              SizedBox(
+                height: 15,
+              ),
+              TaskTile(
+                isComplete: true,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              EmptyTaskTile(),
+              SizedBox(
+                height: 15,
+              ),
             ],
           ),
         ),

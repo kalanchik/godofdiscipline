@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:godofdiscipline/api/auth/auth.dart';
 import 'package:godofdiscipline/router/router.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/menu_tile.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/profile_info.dart';
@@ -61,7 +62,9 @@ class MainDrawer extends StatelessWidget {
                       MenuTile(
                         icon: 'category',
                         body: 'Все задания',
-                        onTap: () {},
+                        onTap: () {
+                          AutoRouter.of(context).push(const AllTasksRoute());
+                        },
                       ),
                       MenuTile(
                         icon: 'stat',
@@ -92,7 +95,11 @@ class MainDrawer extends StatelessWidget {
                       MenuTile(
                         icon: 'exit',
                         body: 'Выйти',
-                        onTap: () {},
+                        onTap: () async {
+                          AutoRouter.of(context).replace(const RegisterRoute());
+                          final auth = AuthService();
+                          await auth.logOut();
+                        },
                       ),
                     ],
                   ),

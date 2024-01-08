@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1062763356061",
+    "project_id": "godofdicipline",
+    "storage_bucket": "godofdicipline.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062763356061:android:318e2e374fc56f83815974",
+        "android_client_info": {
+          "package_name": "com.example.godofdiscipline"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsfoXjU1uF2KQ9jYaAwaO0W5N4eBXLMrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

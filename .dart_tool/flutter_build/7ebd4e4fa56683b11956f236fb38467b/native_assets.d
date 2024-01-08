@@ -1,0 +1,1 @@
+ /Users/macbook/Documents/GitHub/godofdiscipline/.dart_tool/flutter_build/7ebd4e4fa56683b11956f236fb38467b/native_assets.yaml: 
