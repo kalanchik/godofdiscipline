@@ -1,11 +1,9 @@
 import 'package:godofdiscipline/models/day/day.dart';
 import 'package:godofdiscipline/models/settings/settings.dart';
 import 'package:godofdiscipline/models/statistics/statistics.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'app_user.g.dart';
 
-@JsonSerializable()
 class AppUser {
   final String email;
   final String password;

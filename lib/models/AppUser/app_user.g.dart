@@ -36,7 +36,7 @@ Map<String, dynamic> _$AppUserToJson(AppUser instance) => <String, dynamic>{
       'uid': instance.uid,
       'searchHistory': instance.searchHistory,
       'regDate': instance.regDate.toIso8601String(),
-      'statistics': instance.statistics,
-      'days': instance.days,
-      'settings': instance.settings,
+      'statistics': instance.statistics.toJson(),
+      'days': instance.days.map((e) => e.toJson()).toList(),
+      'settings': instance.settings.toJson(),
     };
