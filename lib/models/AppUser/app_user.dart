@@ -1,11 +1,14 @@
 import 'package:godofdiscipline/api/user/user.dart';
 import 'package:godofdiscipline/models/day/day.dart';
+import 'package:godofdiscipline/models/level/level.dart';
 import 'package:godofdiscipline/models/settings/settings.dart';
 import 'package:godofdiscipline/models/statistics/statistics.dart';
 import 'package:godofdiscipline/models/task/task.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'app_user.g.dart';
 
+@JsonSerializable()
 class AppUser {
   final String email;
   String password;
@@ -13,11 +16,11 @@ class AppUser {
   final String lastName;
   final DateTime birthday;
   final String avatar;
+  final Level level;
   final String uid;
   final List<String> searchHistory;
   final DateTime regDate;
   final UserStatistics statistics;
-  final List<Day> days;
   final AppSettings settings;
 
   AppUser({
@@ -30,9 +33,9 @@ class AppUser {
     required this.searchHistory,
     required this.regDate,
     required this.statistics,
-    required this.days,
     required this.birthday,
     required this.settings,
+    required this.level,
   });
 
   static AppUser getRegUser({
@@ -55,7 +58,7 @@ class AppUser {
       statistics: UserStatistics.getStartStat(
         gameStartDate: DateTime.now(),
       ),
-      days: Day.setRegDay(startDate: DateTime.now()),
+      level: Level.getStarterLevel(),
       settings: AppSettings(),
       avatar: imageUrl,
     );
@@ -90,7 +93,7 @@ class AppUser {
   int getDailyCompleteTasks() {
     int completeTasks = 0;
     final curDate = DateTime.now();
-    for (var element in days) {
+    for (var element in []) {
       if ((element.dayDate.day == curDate.day) &
           (element.dayDate.month == curDate.month) &
           (element.dayDate.year == curDate.year)) {
@@ -108,7 +111,7 @@ class AppUser {
     int addTasks = 0;
     final curDate = DateTime.now();
     final nextDate = curDate.add(const Duration(days: 1));
-    for (var element in days) {
+    for (var element in []) {
       if ((element.dayDate.day == nextDate.day) &
           (element.dayDate.month == nextDate.month) &
           (element.dayDate.year == nextDate.year)) {

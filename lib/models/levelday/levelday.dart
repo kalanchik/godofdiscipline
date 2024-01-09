@@ -1,6 +1,8 @@
 import 'package:godofdiscipline/models/task/task.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'levelday.g.dart';
+
 @JsonSerializable()
 class LevelDay {
   LevelDay({

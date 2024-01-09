@@ -29,8 +29,28 @@ class Level {
 
   factory Level.fromJson(Map<String, dynamic> json) => _$LevelFromJson(json);
 
-  /// Connect the generated [_$PersonToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$LevelToJson(this);
+
+  static Level getStarterLevel() {
+    final curDate = DateTime.now();
+    final startDate = curDate.add(const Duration(days: 1));
+    final endDate = curDate.add(const Duration(days: 14));
+    return Level(
+      daysLevel: [
+        LevelDay(
+          dateDay: startDate,
+          tasks: [],
+          taskForComplete: 1,
+          dayStatus: DayStatus.wait,
+        ),
+      ],
+      startDate: startDate,
+      curLevel: AppLevels.level1,
+      endDate: endDate,
+      levelLenght: 7,
+      dayTaskCompleteCount: 1,
+    );
+  }
 }
 
 enum AppLevels {

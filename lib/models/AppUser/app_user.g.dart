@@ -19,11 +19,9 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) => AppUser(
       regDate: DateTime.parse(json['regDate'] as String),
       statistics:
           UserStatistics.fromJson(json['statistics'] as Map<String, dynamic>),
-      days: (json['days'] as List<dynamic>)
-          .map((e) => Day.fromJson(e as Map<String, dynamic>))
-          .toList(),
       birthday: DateTime.parse(json['birthday'] as String),
       settings: AppSettings.fromJson(json['settings'] as Map<String, dynamic>),
+      level: Level.fromJson(json['level'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AppUserToJson(AppUser instance) => <String, dynamic>{
@@ -33,10 +31,10 @@ Map<String, dynamic> _$AppUserToJson(AppUser instance) => <String, dynamic>{
       'lastName': instance.lastName,
       'birthday': instance.birthday.toIso8601String(),
       'avatar': instance.avatar,
+      'level': instance.level.toJson(),
       'uid': instance.uid,
       'searchHistory': instance.searchHistory,
       'regDate': instance.regDate.toIso8601String(),
       'statistics': instance.statistics.toJson(),
-      'days': instance.days.map((e) => e.toJson()).toList(),
       'settings': instance.settings.toJson(),
     };
