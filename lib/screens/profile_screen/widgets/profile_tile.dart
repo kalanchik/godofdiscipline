@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileTile extends StatelessWidget {
-  final String icon;
-  final String hint;
   const ProfileTile({
     super.key,
     required this.icon,
     required this.hint,
+    required this.controller,
   });
+
+  final String icon;
+  final String hint;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -15,31 +19,46 @@ class ProfileTile extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 11),
             height: 45,
             decoration: BoxDecoration(
-              color: const Color(0xFFFBFDFC),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: Image.asset('assets/icons/$icon.png'),
+            child: TextFormField(
+              controller: controller,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 7,
+                  vertical: 0,
                 ),
-                const SizedBox(
-                  width: 20,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
                 ),
-                Text(
-                  hint,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF798994),
+                fillColor: const Color(0xFFFBFDFC),
+                filled: true,
+                prefixIconConstraints: const BoxConstraints(
+                  maxHeight: 20,
+                ),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 11,
+                    right: 20,
+                  ),
+                  child: SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: SvgPicture.asset(
+                      'assets/icons/$icon.svg',
+                    ),
                   ),
                 ),
-              ],
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF798994),
+                ),
+              ),
             ),
           ),
         ),

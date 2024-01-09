@@ -9,6 +9,9 @@ class AppFeedback {
     required String message,
   }) {
     final SnackBar snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
+      dismissDirection: DismissDirection.down,
+      margin: const EdgeInsets.only(bottom: 40, left: 10, right: 10),
       content: Text(message),
       backgroundColor: isComplete ? Colors.green : Colors.red,
     );

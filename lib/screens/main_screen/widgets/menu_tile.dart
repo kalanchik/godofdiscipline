@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MenuTile extends StatelessWidget {
   final String icon;
@@ -20,13 +21,13 @@ class MenuTile extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: Row(
             children: [
               SizedBox(
                 height: 17,
                 width: 17,
-                child: Image.asset('assets/icons/$icon.png'),
+                child: SvgPicture.asset('assets/icons/$icon.svg'),
               ),
               const SizedBox(
                 width: 9,

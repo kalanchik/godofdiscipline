@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
@@ -15,7 +16,7 @@ class ProfileAvatar extends StatelessWidget {
           width: 146,
           child: Stack(
             children: [
-              Image.asset('assets/icons/def_avatar.png'),
+              SvgPicture.asset('assets/icons/def_avatar.svg'),
               Positioned(
                 bottom: 12,
                 right: 10,

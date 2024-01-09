@@ -1,11 +1,54 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:godofdiscipline/models/AppUser/app_user.dart';
+import 'package:godofdiscipline/screens/reg_screen/widgets/t_elevated_button.dart';
+import 'package:godofdiscipline/screens/reg_screen/widgets/t_outline_button.dart';
 import 'package:godofdiscipline/screens/search_screen/widgets/last_requests.dart';
 import 'package:godofdiscipline/screens/search_screen/widgets/search_field.dart';
 
 @RoutePage()
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  late final TextEditingController serchCtrl;
+
+  final getIt = GetIt.I;
+
+  void _clearSearch() {
+    setState(() {
+      serchCtrl.text = '';
+    });
+  }
+
+  void _clearHistory() {
+    setState(() {
+      getIt.get<AppUser>().searchHistory.clear();
+    });
+  }
+
+  void _deleteSearchField(int index) {
+    setState(() {
+      getIt.get<AppUser>().searchHistory.removeAt(index);
+    });
+  }
+
+  @override
+  void dispose() {
+    serchCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    serchCtrl = TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +70,18 @@ class SearchScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const SerchField(),
+            SerchField(
+              controller: serchCtrl,
+              clearSearch: _clearSearch,
+            ),
             const SizedBox(
               height: 34,
             ),
-            const LastRequests(),
+            LastRequests(
+              searchHistory: getIt.get<AppUser>().searchHistory,
+              deleteSearchField: _deleteSearchField,
+              clearHistory: _clearHistory,
+            ),
             const SizedBox(
               height: 200,
             ),
@@ -39,62 +89,27 @@ class SearchScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(
-                            width: 1,
-                            color: const Color(0xFF00A7FF),
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Отмена',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                              color: Color(0xFF108EE6),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  TOutlineButton(
+                    text: 'Отмена',
+                    onTap: () {
+                      AutoRouter.of(context).pop();
+                    },
                   ),
                   const SizedBox(
-                    width: 6,
+                    width: 8,
                   ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF00A7FF),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Найти',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                              color: Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  TElevatedButton(
+                    text: 'Найти',
+                    onTap: () {
+                      setState(() {
+                        GetIt.I.get<AppUser>().searchHistory.add(
+                              serchCtrl.text.trim(),
+                            );
+                      });
+                    },
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 135,
             ),
           ],
         ),

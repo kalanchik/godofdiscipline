@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LastRequests extends StatelessWidget {
-  const LastRequests({super.key});
+  const LastRequests({
+    super.key,
+    required this.searchHistory,
+    required this.deleteSearchField,
+    required this.clearHistory,
+  });
+
+  final List<String> searchHistory;
+  final void Function(int index) deleteSearchField;
+  final VoidCallback clearHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -9,79 +19,113 @@ class LastRequests extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         children: [
-          const Row(
-            children: [
-              Text(
-                'Последние поисковые запросы',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: Color(0xFF798994),
+          searchHistory.isEmpty
+              ? const SizedBox.shrink()
+              : const Row(
+                  children: [
+                    Text(
+                      'Последние поисковые запросы',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        color: Color(0xFF798994),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
           const SizedBox(
             height: 11,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 17,
-                    vertical: 15,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFBFDFC),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      ...List.generate(
-                        4,
-                        (index) => Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'День рождения',
-                                style: TextStyle(
-                                  color: Color(0xFF798994),
+          searchHistory.isEmpty
+              ? const SizedBox.shrink()
+              : Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 17,
+                          vertical: 15,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFBFDFC),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            ...List.generate(
+                              searchHistory.length,
+                              (index) => Container(
+                                margin: EdgeInsets.only(
+                                  bottom: index == searchHistory.length - 1
+                                      ? 0
+                                      : 12,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      searchHistory[index],
+                                      style: const TextStyle(
+                                        color: Color(0xFF798994),
+                                      ),
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(5),
+                                        onTap: () {
+                                          deleteSearchField(index);
+                                        },
+                                        child: Container(
+                                            padding: const EdgeInsets.all(3),
+                                            height: 20,
+                                            width: 20,
+                                            child: SizedBox(
+                                              height: 11,
+                                              width: 11,
+                                              child: SvgPicture.asset(
+                                                'assets/icons/close.svg',
+                                              ),
+                                            )),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 13,
-                                width: 13,
-                                child: Image.asset('assets/icons/close.png'),
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
           const SizedBox(
             height: 29,
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Очистить журнал поиска',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF00A7FF),
+          searchHistory.isEmpty
+              ? const SizedBox.shrink()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: clearHistory,
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        child: Text(
+                          'Очистить журнал поиска',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF00A7FF),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ],
       ),
     );

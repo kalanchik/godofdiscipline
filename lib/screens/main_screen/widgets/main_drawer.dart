@@ -1,14 +1,29 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:godofdiscipline/api/auth/auth.dart';
+import 'package:godofdiscipline/models/AppUser/app_user.dart';
 import 'package:godofdiscipline/router/router.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/menu_tile.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/profile_info.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
   const MainDrawer({
     super.key,
   });
+
+  @override
+  State<MainDrawer> createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  late final AppUser user;
+
+  @override
+  void initState() {
+    user = GetIt.I.get<AppUser>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

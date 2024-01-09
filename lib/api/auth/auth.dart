@@ -53,6 +53,20 @@ class AuthService {
     return true;
   }
 
+  Future<bool> changeUserPassword(String newPasswrod) async {
+    try {
+      if (!_checkUser()) return false;
+      final user = _auth.currentUser;
+      await user!.updatePassword(newPasswrod);
+      await _db.collection('users').doc(user.uid).update({
+        'password': newPasswrod,
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> registerUser({
     required Map<String, dynamic> data,
   }) async {

@@ -1,10 +1,46 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:godofdiscipline/screens/create_activity_screen/widgets/date_time_selector.dart';
+import 'package:godofdiscipline/screens/create_activity_screen/widgets/task_conf.dart';
+import 'package:godofdiscipline/screens/reg_screen/widgets/t_elevated_button.dart';
+import 'package:godofdiscipline/screens/reg_screen/widgets/t_outline_button.dart';
 
 @RoutePage()
-class CreateActivityScreen extends StatelessWidget {
+class CreateActivityScreen extends StatefulWidget {
   const CreateActivityScreen({super.key});
+
+  @override
+  State<CreateActivityScreen> createState() => _CreateActivityScreenState();
+}
+
+class _CreateActivityScreenState extends State<CreateActivityScreen> {
+  late final TextEditingController titleCtrl;
+  late final TextEditingController descCtrl;
+
+  late String selectedDate;
+  late String selectedTime;
+
+  void _deleteControllers() {
+    titleCtrl.dispose();
+    descCtrl.dispose();
+  }
+
+  @override
+  void dispose() {
+    _deleteControllers();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    titleCtrl = TextEditingController();
+    descCtrl = TextEditingController();
+    final nowDate = DateTime.now();
+    final nowTime = TimeOfDay.now();
+    selectedDate = '${nowDate.day}.${nowDate.month}.${nowDate.year}';
+    selectedTime = '${nowTime.hour}:${nowTime.minute}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,56 +62,19 @@ class CreateActivityScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 360,
-                  height: 171,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 17,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFBFDFC),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Название задания',
-                            style: TextStyle(
-                              color: Color(0xFFD3D8DC),
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '+ Добавить описание',
-                            style: TextStyle(
-                              color: Color(0xFF00A7FF),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            TaskConf(
+              titleCtrl: titleCtrl,
+              descCtrl: descCtrl,
             ),
             const SizedBox(
               height: 9,
             ),
-            const DateTimeSelector(),
+            DateTimeSelector(
+              selectedDate: selectedDate,
+              selectedTime: selectedTime,
+              updateDate: _updateDate,
+              updateTime: _updateTime,
+            ),
             const SizedBox(
               height: 186,
             ),
@@ -83,56 +82,16 @@ class CreateActivityScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(
-                            width: 1,
-                            color: const Color(0xFF00A7FF),
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Отмена',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                              color: Color(0xFF108EE6),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  TOutlineButton(
+                    text: 'Отмена',
+                    onTap: () {},
                   ),
                   const SizedBox(
                     width: 6,
                   ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF00A7FF),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Создать',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                              color: Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  TElevatedButton(
+                    text: 'Создать',
+                    onTap: () {},
                   ),
                 ],
               ),
@@ -141,5 +100,17 @@ class CreateActivityScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _updateDate(String date) {
+    setState(() {
+      selectedDate = date;
+    });
+  }
+
+  void _updateTime(String time) {
+    setState(() {
+      selectedTime = time;
+    });
   }
 }

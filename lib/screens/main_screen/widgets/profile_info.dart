@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:godofdiscipline/models/AppUser/app_user.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/info_tile.dart';
 
-class ProfileInfo extends StatelessWidget {
+class ProfileInfo extends StatefulWidget {
   const ProfileInfo({
     super.key,
   });
+
+  @override
+  State<ProfileInfo> createState() => _ProfileInfoState();
+}
+
+class _ProfileInfoState extends State<ProfileInfo> {
+  late final AppUser user;
+
+  @override
+  void initState() {
+    user = GetIt.I.get<AppUser>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +44,16 @@ class ProfileInfo extends StatelessWidget {
                     SizedBox(
                       height: 30,
                       width: 30,
-                      child: Image.asset(
-                        'assets/icons/avatar.png',
+                      child: SvgPicture.asset(
+                        'assets/icons/avatar.svg',
                       ),
                     ),
                     const SizedBox(
                       width: 13,
                     ),
-                    const Text(
-                      'Иванов Иван',
-                      style: TextStyle(
+                    Text(
+                      '${user.firstName} ${user.lastName}',
+                      style: const TextStyle(
                         color: Color(0xFF071A2F),
                         fontSize: 19,
                         fontWeight: FontWeight.w600,
@@ -48,16 +64,16 @@ class ProfileInfo extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                const InfoTile(
+                InfoTile(
                   header: 'Текущий статус:',
-                  body: 'Бог дисциплины',
+                  body: user.getLevel(),
                 ),
                 const SizedBox(
                   height: 4,
                 ),
-                const InfoTile(
+                InfoTile(
                   header: 'Начало периода:',
-                  body: 'с 12.05.2023',
+                  body: 'c ${user.getRegDate()}',
                 ),
                 const SizedBox(
                   height: 4,
@@ -69,16 +85,17 @@ class ProfileInfo extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                const InfoTile(
+                InfoTile(
                   header: 'Сегодня выполнено:',
-                  body: '6 заданий из 10',
+                  body: '${user.getDailyCompleteTasks()} заданий из 10',
                 ),
                 const SizedBox(
                   height: 4,
                 ),
-                const InfoTile(
+                InfoTile(
                   header: 'Завтра:',
-                  body: 'добавлено 1 задание из 10',
+                  body:
+                      'добавлено ${user.getTommorowTasksCount()} задание из 10',
                 ),
               ],
             ),
