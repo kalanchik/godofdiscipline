@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:godofdiscipline/models/task/task.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/task_body.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/task_header.dart';
 
@@ -10,7 +11,10 @@ class TaskTile extends StatefulWidget {
     super.key,
     this.desc = '',
     this.isComplete = false,
+    required this.task,
   });
+
+  final Task task;
 
   @override
   State<TaskTile> createState() => _TaskTileState();
@@ -21,7 +25,7 @@ class _TaskTileState extends State<TaskTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
       child: Slidable(
         startActionPane: ActionPane(
           motion: const DrawerMotion(),
@@ -68,11 +72,24 @@ class _TaskTileState extends State<TaskTile> {
               children: [
                 TaskHeader(
                   isComplete: widget.isComplete,
+                  title: widget.task.title,
+                  desc: widget.task.desc,
+                  time: widget.task.startTime,
+                  status: widget.task.isComplete,
+                  changeStatus: () {
+                    setState(() {
+                      widget.task.changeStatus(TaskStatus.complete);
+                    });
+                  },
                 ),
                 AnimatedSize(
                   duration: const Duration(milliseconds: 450),
                   curve: Curves.fastEaseInToSlowEaseOut,
-                  child: isOpen ? const TaskBody() : const SizedBox.shrink(),
+                  child: isOpen
+                      ? TaskBody(
+                          desc: widget.task.desc,
+                        )
+                      : const SizedBox.shrink(),
                 ),
               ],
             ),

@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:godofdiscipline/models/AppUser/app_user.dart';
+import 'package:godofdiscipline/router/router.dart';
 import 'package:godofdiscipline/screens/create_activity_screen/widgets/date_time_selector.dart';
 import 'package:godofdiscipline/screens/create_activity_screen/widgets/task_conf.dart';
 import 'package:godofdiscipline/screens/reg_screen/widgets/t_elevated_button.dart';
@@ -46,6 +49,14 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            AutoRouter.of(context).replace(const MainRoute());
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
         iconTheme: const IconThemeData(
           color: Color(0xFF798994),
         ),
@@ -91,7 +102,7 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
                   ),
                   TElevatedButton(
                     text: 'Создать',
-                    onTap: () {},
+                    onTap: _createTask,
                   ),
                 ],
               ),
@@ -100,6 +111,15 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
         ),
       ),
     );
+  }
+
+  void _createTask() {
+    GetIt.I.get<AppUser>().addTask(
+          selectedDate: selectedDate,
+          selectedTime: selectedTime,
+          title: titleCtrl.text.trim(),
+          desc: descCtrl.text.trim(),
+        );
   }
 
   void _updateDate(String date) {

@@ -23,8 +23,15 @@ class LevelDay {
   factory LevelDay.fromJson(Map<String, dynamic> json) =>
       _$LevelDayFromJson(json);
 
-  /// Connect the generated [_$PersonToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$LevelDayToJson(this);
+
+  void addTask(Task task) {
+    tasks.add(task);
+  }
+
+  DateTime getDayDate() {
+    return DateTime(dateDay.year, dateDay.month, dateDay.day);
+  }
 }
 
 enum DayStatus {

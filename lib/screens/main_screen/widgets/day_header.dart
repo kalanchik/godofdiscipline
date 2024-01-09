@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/day_action_button.dart';
 
 class DayHeader extends StatefulWidget {
-  const DayHeader({super.key});
+  const DayHeader({super.key, required this.dayDate});
+
+  final DateTime dayDate;
 
   @override
   State<DayHeader> createState() => _DayHeaderState();
@@ -18,9 +20,9 @@ class _DayHeaderState extends State<DayHeader> {
         children: [
           Row(
             children: [
-              const Text(
-                'Сегодня',
-                style: TextStyle(
+              Text(
+                _buildDayHeader(widget.dayDate),
+                style: const TextStyle(
                   color: Color(0xFF798994),
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
@@ -83,4 +85,26 @@ class _DayHeaderState extends State<DayHeader> {
       ),
     );
   }
+}
+
+String _buildDayHeader(DateTime dayDate) {
+  final curDay = DateTime.now();
+  final nextDay = curDay.add(const Duration(days: 1));
+  final prevDay = curDay.add(const Duration(days: -1));
+  if ((curDay.day == dayDate.day) &
+      (curDay.month == dayDate.month) &
+      (curDay.year == dayDate.year)) {
+    return 'Сегодня';
+  }
+  if ((prevDay.day == dayDate.day) &
+      (prevDay.month == dayDate.month) &
+      (prevDay.year == dayDate.year)) {
+    return 'Вчера';
+  }
+  if ((nextDay.day == dayDate.day) &
+      (nextDay.month == dayDate.month) &
+      (nextDay.year == dayDate.year)) {
+    return 'Завтра';
+  }
+  return '${dayDate.day}.${dayDate.month}.${dayDate.year}';
 }

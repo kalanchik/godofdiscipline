@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:godofdiscipline/models/task/task.dart';
 
 class TaskHeader extends StatelessWidget {
+  const TaskHeader({
+    super.key,
+    required this.isComplete,
+    required this.title,
+    required this.desc,
+    required this.time,
+    required this.changeStatus,
+    required this.status,
+  });
+
   final bool isComplete;
-  const TaskHeader({super.key, required this.isComplete});
+  final String title;
+  final String desc;
+  final String time;
+  final TaskStatus status;
+  final void Function() changeStatus;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         InkWell(
-          onTap: () {},
+          onTap: changeStatus,
           child: Container(
             width: 30,
             height: 30,
             decoration: BoxDecoration(
-              color: isComplete ? const Color(0xFF54D650) : null,
-              border: isComplete
+              color: status == TaskStatus.complete
+                  ? const Color(0xFF54D650)
+                  : null,
+              border: status == TaskStatus.complete
                   ? null
                   : Border.all(
                       width: 2,
@@ -24,7 +41,7 @@ class TaskHeader extends StatelessWidget {
                     ),
               shape: BoxShape.circle,
             ),
-            child: isComplete
+            child: status == TaskStatus.complete
                 ? const Icon(
                     Icons.done,
                     size: 15,
@@ -36,15 +53,15 @@ class TaskHeader extends StatelessWidget {
         const SizedBox(
           width: 16,
         ),
-        const Expanded(
+        Expanded(
           child: Column(
             children: [
               Row(
                 children: [
                   Flexible(
                     child: Text(
-                      'Чтение 60 минут',
-                      style: TextStyle(
+                      title,
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF071A2F),
@@ -57,8 +74,10 @@ class TaskHeader extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      'Алмазный огранщик',
-                      style: TextStyle(
+                      desc,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      style: const TextStyle(
                         color: Color(0xFF071A2F),
                         fontSize: 12,
                         fontWeight: FontWeight.w300,
@@ -73,11 +92,11 @@ class TaskHeader extends StatelessWidget {
         Row(
           children: [
             Text(
-              '06:00',
+              time,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: isComplete
+                color: status == TaskStatus.complete
                     ? const Color(0xFF798994)
                     : const Color(0xFFEA0001),
               ),

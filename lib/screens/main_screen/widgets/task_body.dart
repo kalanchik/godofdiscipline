@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TaskBody extends StatelessWidget {
-  const TaskBody({super.key});
+  const TaskBody({super.key, required this.desc});
+
+  final String desc;
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +13,9 @@ class TaskBody extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        const Text(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.',
-          style: TextStyle(
+        Text(
+          desc,
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w200,
           ),
@@ -32,7 +34,7 @@ class TaskBody extends StatelessWidget {
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
-                blurRadius: 20,
+                blurRadius: 5,
                 spreadRadius: 1,
               ),
             ],

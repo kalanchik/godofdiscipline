@@ -1,4 +1,5 @@
 import 'package:godofdiscipline/models/levelday/levelday.dart';
+import 'package:godofdiscipline/models/task/task.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'level.g.dart';
@@ -50,6 +51,40 @@ class Level {
       levelLenght: 7,
       dayTaskCompleteCount: 1,
     );
+  }
+
+  LevelDay createLevelDay(DateTime dayDate) {
+    return LevelDay(
+      dateDay: dayDate,
+      tasks: [],
+      taskForComplete: dayTaskCompleteCount,
+      dayStatus: DayStatus.wait,
+    );
+  }
+
+  int? findDay(DateTime findDate) {
+    for (var index = 0; index < daysLevel.length; index++) {
+      final day = daysLevel[index];
+      if (findDate == day.getDayDate()) {
+        return index;
+      }
+    }
+    return null;
+  }
+
+  void addNewDayAndTask(DateTime dayDate, Task task) {
+    daysLevel.add(
+      LevelDay(
+        dateDay: dayDate,
+        tasks: [task],
+        taskForComplete: dayTaskCompleteCount,
+        dayStatus: DayStatus.wait,
+      ),
+    );
+  }
+
+  void addTask(int index, Task task) {
+    daysLevel[index].addTask(task);
   }
 }
 

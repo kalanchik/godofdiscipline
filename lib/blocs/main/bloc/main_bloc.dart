@@ -18,7 +18,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         emit(FailureState());
         return;
       }
-      GetIt.I.registerSingleton(appUser);
+      try {
+        GetIt.I.registerSingleton(
+          appUser,
+        );
+      } catch (e) {
+        print('unregisterd');
+      }
       emit(LoadDataState(user: appUser));
     });
   }

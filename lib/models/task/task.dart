@@ -21,6 +21,10 @@ class Task {
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaskToJson(this);
+
+  void changeStatus(TaskStatus status) {
+    isComplete = status;
+  }
 }
 
 enum TaskStatus {

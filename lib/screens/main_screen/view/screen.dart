@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:godofdiscipline/blocs/main/bloc/main_bloc.dart';
+import 'package:godofdiscipline/models/AppUser/app_user.dart';
 import 'package:godofdiscipline/router/router.dart';
-import 'package:godofdiscipline/screens/main_screen/widgets/day_header.dart';
-import 'package:godofdiscipline/screens/main_screen/widgets/empty_task_tile.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/day_content.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/filter_button.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/level_info.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/main_drawer.dart';
-import 'package:godofdiscipline/screens/main_screen/widgets/task_tile.dart';
 import 'package:godofdiscipline/utils/feedback/feedback.dart';
 
 @RoutePage()
@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
           borderRadius: BorderRadius.circular(30),
         ),
         onPressed: () {
-          AutoRouter.of(context).push(const CreateActivityRoute());
+          AutoRouter.of(context).replace(const CreateActivityRoute());
         },
         backgroundColor: const Color(0xFF0194FE),
         child: const Icon(
@@ -64,6 +64,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         actions: [
           InkWell(
             onTap: () {
@@ -91,27 +92,30 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context, state) {
           if (state is LoadDataState) {
             return SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 17,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 17,
+                  ),
+                  LevelInfo(
+                    userLevel: state.user.statistics.curLevel,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 10),
+                      itemCount: GetIt.I.get<AppUser>().level.daysLevel.length,
+                      itemBuilder: (context, index) {
+                        return DayContent(
+                          levelDay:
+                              GetIt.I.get<AppUser>().level.daysLevel[index],
+                        );
+                      },
                     ),
-                    LevelInfo(
-                      userLevel: state.user.statistics.curLevel,
-                    ),
-                    const SizedBox(
-                      height: 28,
-                    ),
-                    const DayContent(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }
@@ -134,30 +138,6 @@ class _MainScreenState extends State<MainScreen> {
           );
         },
       ),
-    );
-  }
-}
-
-class DayContent extends StatelessWidget {
-  const DayContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        DayHeader(),
-        TaskTile(),
-        SizedBox(
-          height: 15,
-        ),
-        TaskTile(
-          isComplete: true,
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        EmptyTaskTile(),
-      ],
     );
   }
 }
