@@ -17,16 +17,23 @@ class DayContent extends StatelessWidget {
         children: [
           DayHeader(
             dayDate: levelDay.dateDay,
+            needToAdd: levelDay.calcHowToAdd(),
+            completeTasks: levelDay.calcHowToComplete(),
+            remToDone: levelDay.calcHoToRemain(),
+            levelDay: levelDay,
           ),
           ...List.generate(
             levelDay.tasks.length,
             (index) => TaskTile(
               task: levelDay.tasks[index],
+              isBefore: levelDay.isBeforeTask(),
             ),
           ),
-          EmptyTaskTile(
-            levelDate: levelDay.dateDay,
-          ),
+          levelDay.isBeforeDay()
+              ? const SizedBox.shrink()
+              : EmptyTaskTile(
+                  levelDate: levelDay.dateDay,
+                ),
         ],
       ),
     );

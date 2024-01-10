@@ -11,6 +11,7 @@ class TaskHeader extends StatelessWidget {
     required this.time,
     required this.changeStatus,
     required this.status,
+    required this.isBefore,
   });
 
   final bool isComplete;
@@ -19,6 +20,7 @@ class TaskHeader extends StatelessWidget {
   final String time;
   final TaskStatus status;
   final void Function() changeStatus;
+  final bool isBefore;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,9 @@ class TaskHeader extends StatelessWidget {
             height: 30,
             decoration: BoxDecoration(
               color: status == TaskStatus.complete
-                  ? const Color(0xFF54D650)
+                  ? isBefore
+                      ? const Color(0xFFD3D8DC)
+                      : const Color(0xFF54D650)
                   : null,
               border: status == TaskStatus.complete
                   ? null
@@ -61,10 +65,15 @@ class TaskHeader extends StatelessWidget {
                   Flexible(
                     child: Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        decoration:
+                            isBefore ? TextDecoration.lineThrough : null,
+                        decorationThickness: 0.5,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF071A2F),
+                        color: isBefore
+                            ? const Color(0xFF798994)
+                            : const Color(0xFF071A2F),
                       ),
                     ),
                   ),
@@ -77,8 +86,10 @@ class TaskHeader extends StatelessWidget {
                       desc,
                       maxLines: 1,
                       overflow: TextOverflow.clip,
-                      style: const TextStyle(
-                        color: Color(0xFF071A2F),
+                      style: TextStyle(
+                        color: isBefore
+                            ? const Color(0xFF798994)
+                            : const Color(0xFF071A2F),
                         fontSize: 12,
                         fontWeight: FontWeight.w300,
                       ),
@@ -98,7 +109,9 @@ class TaskHeader extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: status == TaskStatus.complete
                     ? const Color(0xFF798994)
-                    : const Color(0xFFEA0001),
+                    : isBefore
+                        ? const Color(0xFF798994)
+                        : const Color(0xFFEA0001),
               ),
             ),
             const SizedBox(

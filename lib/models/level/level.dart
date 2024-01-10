@@ -33,7 +33,8 @@ class Level {
   Map<String, dynamic> toJson() => _$LevelToJson(this);
 
   static Level getStarterLevel() {
-    final curDate = DateTime.now();
+    final date = DateTime.now();
+    final curDate = DateTime(date.year, date.month, date.day);
     final startDate = curDate.add(const Duration(days: 1));
     final endDate = curDate.add(const Duration(days: 14));
     return Level(
@@ -48,7 +49,7 @@ class Level {
       startDate: startDate,
       curLevel: AppLevels.level1,
       endDate: endDate,
-      levelLenght: 7,
+      levelLenght: 14,
       dayTaskCompleteCount: 1,
     );
   }
@@ -81,6 +82,7 @@ class Level {
         dayStatus: DayStatus.wait,
       ),
     );
+    daysLevel.sort((a, b) => a.dateDay.compareTo(b.dateDay));
   }
 
   void addTask(int index, Task task) {

@@ -7,6 +7,7 @@ import 'package:godofdiscipline/screens/create_activity_screen/widgets/date_time
 import 'package:godofdiscipline/screens/create_activity_screen/widgets/task_conf.dart';
 import 'package:godofdiscipline/screens/reg_screen/widgets/t_elevated_button.dart';
 import 'package:godofdiscipline/screens/reg_screen/widgets/t_outline_button.dart';
+import 'package:godofdiscipline/utils/feedback/feedback.dart';
 
 @RoutePage()
 class CreateActivityScreen extends StatefulWidget {
@@ -114,12 +115,47 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   }
 
   void _createTask() {
+    final checkTitle = _checkTitle();
+    if (!checkTitle) {
+      AppFeedback.showFeedback(
+        context: context,
+        isComplete: false,
+        message: 'Название не может быть пустым!',
+      );
+      return;
+    }
+    final checkDate = _checkSelectedDate();
+    if (!checkDate) {
+      AppFeedback.showFeedback(
+        context: context,
+        isComplete: false,
+        message: 'Вы не можете добавить задание на прошедшую дату!',
+      );
+      return;
+    }
     GetIt.I.get<AppUser>().addTask(
           selectedDate: selectedDate,
           selectedTime: selectedTime,
           title: titleCtrl.text.trim(),
           desc: descCtrl.text.trim(),
         );
+  }
+
+  bool _checkTitle() {
+    return titleCtrl.text.isNotEmpty;
+  }
+
+  bool _checkSelectedDate() {
+    final date = DateTime.now();
+    final curDate = DateTime(date.year, date.month, date.day);
+    final selectedSymbols = selectedDate.split('.');
+    final selectedNumbers = selectedSymbols.map((e) => int.parse(e)).toList();
+    final selDate = DateTime(
+      selectedNumbers[2],
+      selectedNumbers[1],
+      selectedNumbers[0],
+    );
+    return curDate.isBefore(selDate);
   }
 
   void _updateDate(String date) {

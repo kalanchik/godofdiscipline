@@ -7,11 +7,13 @@ import 'package:godofdiscipline/screens/main_screen/widgets/task_header.dart';
 class TaskTile extends StatefulWidget {
   final String desc;
   final bool isComplete;
+  final bool isBefore;
   const TaskTile({
     super.key,
     this.desc = '',
     this.isComplete = false,
     required this.task,
+    required this.isBefore,
   });
 
   final Task task;
@@ -76,6 +78,7 @@ class _TaskTileState extends State<TaskTile> {
                   desc: widget.task.desc,
                   time: widget.task.startTime,
                   status: widget.task.isComplete,
+                  isBefore: widget.isBefore,
                   changeStatus: () {
                     setState(() {
                       widget.task.changeStatus(TaskStatus.complete);

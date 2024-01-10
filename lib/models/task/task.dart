@@ -25,6 +25,10 @@ class Task {
   void changeStatus(TaskStatus status) {
     isComplete = status;
   }
+
+  bool isCompleteTask() {
+    return isComplete == TaskStatus.complete;
+  }
 }
 
 enum TaskStatus {
