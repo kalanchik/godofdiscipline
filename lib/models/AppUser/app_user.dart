@@ -1,5 +1,6 @@
 import 'package:godofdiscipline/api/user/user.dart';
 import 'package:godofdiscipline/models/level/level.dart';
+import 'package:godofdiscipline/models/levelday/levelday.dart';
 import 'package:godofdiscipline/models/settings/settings.dart';
 import 'package:godofdiscipline/models/statistics/statistics.dart';
 import 'package:godofdiscipline/models/task/task.dart';
@@ -63,61 +64,26 @@ class AppUser {
     );
   }
 
+  /// Менять старый пароль на переданный
   void changePassword(String newPassword) {
     password = newPassword;
   }
 
+  /// Обновляет полные данные о пользователе
   Future<bool> updateUserData(Map<String, dynamic> data) async {
     final userService = UserService();
     final response = await userService.updateUserData(data);
     return response;
   }
 
-  String getLevel() {
-    final levelsNames = <int, String>{
-      1: 'Легко',
-      2: 'Я могу',
-      3: 'Я могу больше',
-      4: 'Я крутой',
-    };
-    final levelName = levelsNames[statistics.curLevel.index + 1];
-    if (levelName == null) return 'Легко';
-    return levelName;
-  }
-
   String getRegDate() {
     return '${regDate.day}.${regDate.month}.${regDate.year}';
   }
 
-  int getDailyCompleteTasks() {
-    int completeTasks = 0;
-    final curDate = DateTime.now();
-    for (var element in []) {
-      if ((element.dayDate.day == curDate.day) &
-          (element.dayDate.month == curDate.month) &
-          (element.dayDate.year == curDate.year)) {
-        for (var task in element.tasks) {
-          if (task.isComplete == TaskStatus.complete) {
-            completeTasks += 1;
-          }
-        }
-      }
-    }
-    return completeTasks;
-  }
-
   bool _checkDay(DateTime date) {
-    for (var levelDay in level.daysLevel) {
-      final levelDate = DateTime(
-        levelDay.dateDay.year,
-        levelDay.dateDay.month,
-        levelDay.dateDay.day,
-      );
-      if (levelDate == date) {
-        return true;
-      }
-    }
-    return false;
+    final findDay = level.days[date];
+    if (findDay == null) return false;
+    return true;
   }
 
   void _addNewTask(DateTime dayDate, Task task) {
@@ -146,9 +112,7 @@ class AppUser {
       );
       return;
     }
-    final dayIndex = level.findDay(taskDay);
-    level.addTask(
-      dayIndex!,
+    level.days[taskDay]!.addTask(
       Task(
         title: title,
         desc: desc,
@@ -158,22 +122,14 @@ class AppUser {
     );
   }
 
-  int getTommorowTasksCount() {
-    int addTasks = 0;
-    final curDate = DateTime.now();
-    final nextDate = curDate.add(const Duration(days: 1));
-    for (var element in []) {
-      if ((element.dayDate.day == nextDate.day) &
-          (element.dayDate.month == nextDate.month) &
-          (element.dayDate.year == nextDate.year)) {
-        for (var task in element.tasks) {
-          if (task.isComplete == TaskStatus.wait) {
-            addTasks += 1;
-          }
-        }
-      }
-    }
-    return addTasks;
+  void createNextDay() {
+    level.createNextDay();
+  }
+
+  List<LevelDay> getUserDays() {
+    final sortedEntries = level.days.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return sortedEntries.map((e) => e.value).toList();
   }
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>

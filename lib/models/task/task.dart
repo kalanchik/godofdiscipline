@@ -22,12 +22,49 @@ class Task {
 
   Map<String, dynamic> toJson() => _$TaskToJson(this);
 
-  void changeStatus(TaskStatus status) {
+  DateTime get taskDateTime {
+    final timeSymbols = startTime.split(':');
+    final timeNumbers = timeSymbols.map((e) => int.parse(e)).toList();
+    return DateTime(
+      startDate.year,
+      startDate.month,
+      startDate.day,
+      timeNumbers[0],
+      timeNumbers[1],
+    );
+  }
+
+  void changeStatus(TaskStatus status, void Function(String message) failTask) {
+    final curDateTime = DateTime.now();
+    final leftSide = taskDateTime.add(const Duration(minutes: -2));
+    final rightSide = taskDateTime.add(const Duration(minutes: 2));
+    if (!curDateTime.isAfter(leftSide)) {
+      failTask('Вы еще не можете выполнить это задание!');
+      return;
+    }
+    if (!curDateTime.isBefore(rightSide)) {
+      failTask('Вы не успели выполнить задание!');
+      return;
+    }
     isComplete = status;
   }
 
   bool isCompleteTask() {
     return isComplete == TaskStatus.complete;
+  }
+
+  static Map<String, dynamic> taskToServer({
+    required String title,
+    required String desc,
+    required String startTime,
+    required DateTime startDate,
+  }) {
+    return Task(
+      title: title,
+      desc: desc,
+      startTime: startTime,
+      startDate: startDate,
+    ).toJson();
   }
 }
 

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:godofdiscipline/models/statistics/statistics.dart';
+import 'package:godofdiscipline/models/level/level.dart';
 
 class LevelInfo extends StatelessWidget {
-  final LevelsNames userLevel;
-  const LevelInfo({super.key, required this.userLevel});
+  const LevelInfo({
+    super.key,
+    required this.level,
+  });
+
+  final Level level;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class LevelInfo extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Уровень ${userLevel.index + 1}: ${buildLevelName(userLevel.index + 1)}',
+                    'Уровень ${level.levelIndex}: ${level.levelName}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 19,
@@ -35,9 +39,9 @@ class LevelInfo extends StatelessWidget {
                   ),
                 ],
               ),
-              const Row(
+              Row(
                 children: [
-                  Text(
+                  const Text(
                     'Осталось: ',
                     style: TextStyle(
                       fontSize: 10,
@@ -46,8 +50,8 @@ class LevelInfo extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '0 дней из 14 дней',
-                    style: TextStyle(
+                    '${level.leftDay} дней из ${level.levelLenght} дней',
+                    style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
@@ -61,16 +65,4 @@ class LevelInfo extends StatelessWidget {
       ],
     );
   }
-}
-
-String buildLevelName(int levelIndex) {
-  final levelsNames = <int, String>{
-    1: 'Легко',
-    2: 'Я могу',
-    3: 'Я могу больше',
-    4: 'Я крутой',
-  };
-  final levelName = levelsNames[levelIndex];
-  if (levelName == null) return 'Легко';
-  return levelName;
 }

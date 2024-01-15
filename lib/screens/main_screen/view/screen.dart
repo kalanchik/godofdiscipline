@@ -6,7 +6,9 @@ import 'package:godofdiscipline/blocs/main/bloc/main_bloc.dart';
 import 'package:godofdiscipline/models/AppUser/app_user.dart';
 import 'package:godofdiscipline/router/router.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/day_content.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/day_dialog.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/filter_button.dart';
+import 'package:godofdiscipline/screens/main_screen/widgets/level_complete.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/level_info.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/main_drawer.dart';
 import 'package:godofdiscipline/utils/feedback/feedback.dart';
@@ -26,7 +28,20 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _bloc = MainBloc();
-    _bloc.add(LoadDataEvent(onFail: onFail));
+    _bloc.add(
+      LoadDataEvent(
+        onFail: onFail,
+        showDialog: _showDialog,
+        levelComplete: _showLevelComplete,
+      ),
+    );
+  }
+
+  void _showLevelComplete() {
+    showDialog(
+      context: context,
+      builder: (context) => const LevelComplete(),
+    );
   }
 
   void onFail(String error) {
@@ -34,6 +49,13 @@ class _MainScreenState extends State<MainScreen> {
       context: context,
       isComplete: false,
       message: error,
+    );
+  }
+
+  void _showDialog(bool isComplete) {
+    showDialog(
+      context: context,
+      builder: (context) => const DayDialog(),
     );
   }
 
@@ -98,7 +120,7 @@ class _MainScreenState extends State<MainScreen> {
                     height: 17,
                   ),
                   LevelInfo(
-                    userLevel: state.user.statistics.curLevel,
+                    level: GetIt.I.get<AppUser>().level,
                   ),
                   const SizedBox(
                     height: 10,
@@ -106,12 +128,9 @@ class _MainScreenState extends State<MainScreen> {
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.only(top: 10),
-                      itemCount: GetIt.I.get<AppUser>().level.daysLevel.length,
+                      itemCount: state.days.length,
                       itemBuilder: (context, index) {
-                        return DayContent(
-                          levelDay:
-                              GetIt.I.get<AppUser>().level.daysLevel[index],
-                        );
+                        return DayContent(levelDay: state.days[index]);
                       },
                     ),
                   ),

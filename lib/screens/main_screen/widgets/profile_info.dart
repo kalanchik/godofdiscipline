@@ -66,7 +66,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 ),
                 InfoTile(
                   header: 'Текущий статус:',
-                  body: user.getLevel(),
+                  body: user.level.levelName,
                 ),
                 const SizedBox(
                   height: 4,
@@ -78,16 +78,17 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 const SizedBox(
                   height: 4,
                 ),
-                const InfoTile(
+                InfoTile(
                   header: 'Осталось в периоде:',
-                  body: '300 дней',
+                  body: '${user.level.dayPeriodLeft} дней',
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 InfoTile(
                   header: 'Сегодня выполнено:',
-                  body: '${user.getDailyCompleteTasks()} заданий из 10',
+                  body:
+                      '${user.level.completeDailyTask} заданий из ${user.level.dayTaskCompleteCount}',
                 ),
                 const SizedBox(
                   height: 4,
@@ -95,7 +96,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 InfoTile(
                   header: 'Завтра:',
                   body:
-                      'добавлено ${user.getTommorowTasksCount()} задание из 10',
+                      'добавлено ${user.level.addTomorrowTasks} задание из ${user.level.dayTaskCompleteCount}',
                 ),
               ],
             ),

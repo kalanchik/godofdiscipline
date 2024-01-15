@@ -34,4 +34,16 @@ class UserService {
       return null;
     }
   }
+
+  Future<bool> updateUserLevel(
+      {required Map<String, dynamic> data, required String uid}) async {
+    try {
+      await _db.collection('users').doc(uid).update({
+        'level': data,
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

@@ -27,6 +27,7 @@ class DayContent extends StatelessWidget {
             (index) => TaskTile(
               task: levelDay.tasks[index],
               isBefore: levelDay.isBeforeTask(),
+              checkDay: levelDay.checkDayOnComplete,
             ),
           ),
           levelDay.isBeforeDay()

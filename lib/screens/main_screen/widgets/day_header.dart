@@ -92,7 +92,7 @@ class _DayHeaderState extends State<DayHeader> {
     );
   }
 
-  Text _buildDayText(DateTime dayDate) {
+  Widget _buildDayText(DateTime dayDate) {
     final date = DateTime.now();
     final curDate = DateTime(date.year, date.month, date.day);
     final int tasksCount = widget.levelDay.calcDayTasks();
@@ -119,13 +119,37 @@ class _DayHeaderState extends State<DayHeader> {
       }
     }
     if (dayDate == curDate) {
-      if (tasksCount != 0) {
+      if (widget.levelDay.isComplete) {
         return Text(
-          '${_buildDayName(dayDate)}: осталось выполнить $tasksCount ${changeWordTask(tasksCount)}',
+          '${_buildDayName(dayDate)}: Все выполнено',
           style: const TextStyle(
-            color: Color(0xFFEA0001),
+            color: Color(0xFF54D650),
             fontSize: 17,
             fontWeight: FontWeight.w600,
+          ),
+        );
+      }
+      if (tasksCount != 0) {
+        return Flexible(
+          child: Text(
+            '${_buildDayName(dayDate)}: осталось выполнить $tasksCount ${changeWordTask(tasksCount)}',
+            style: const TextStyle(
+              color: Color(0xFFEA0001),
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      }
+      if (tasksCount == 0) {
+        return Flexible(
+          child: Text(
+            '${_buildDayName(dayDate)}: Вы добавили $tasksCount ${changeWordTask(tasksCount)}',
+            style: const TextStyle(
+              color: Color(0xFFEA0001),
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         );
       }

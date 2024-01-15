@@ -15,11 +15,17 @@ Level _$LevelFromJson(Map<String, dynamic> json) => Level(
       endDate: DateTime.parse(json['endDate'] as String),
       levelLenght: json['levelLenght'] as int,
       dayTaskCompleteCount: json['dayTaskCompleteCount'] as int,
+      days: (json['days'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(
+            DateTime.parse(k), LevelDay.fromJson(e as Map<String, dynamic>)),
+      ),
     );
 
 Map<String, dynamic> _$LevelToJson(Level instance) => <String, dynamic>{
       'curLevel': _$AppLevelsEnumMap[instance.curLevel]!,
       'daysLevel': instance.daysLevel.map((e) => e.toJson()).toList(),
+      'days': instance.days
+          .map((k, e) => MapEntry(k.toIso8601String(), e.toJson())),
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'levelLenght': instance.levelLenght,

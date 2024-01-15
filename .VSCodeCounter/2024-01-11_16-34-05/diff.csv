@@ -1,0 +1,12 @@
+"filename", "language", "Dart", "comment", "blank", "total"
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/blocs/main/bloc/main_bloc.dart", "Dart", 2, 0, 0, 2
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/blocs/main/bloc/main_event.dart", "Dart", 4, 0, 0, 4
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/models/AppUser/app_user.dart", "Dart", 22, 0, 2, 24
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/models/level/level.dart", "Dart", 45, 0, 5, 50
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/models/levelday/levelday.dart", "Dart", 15, 0, 1, 16
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/screens/create_activity_screen/view/screen.dart", "Dart", -9, 9, 0, 0
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/screens/main_screen/view/screen.dart", "Dart", 12, 0, 1, 13
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/screens/main_screen/widgets/day_dialog.dart", "Dart", 87, 0, 3, 90
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/screens/main_screen/widgets/day_header.dart", "Dart", 12, 0, 0, 12
+"/Users/macbook/Documents/GitHub/godofdiscipline/lib/screens/main_screen/widgets/level_info.dart", "Dart", -8, 0, 0, -8
+"Total", "-", 182, 9, 12, 203

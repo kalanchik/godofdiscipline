@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:godofdiscipline/models/task/task.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/task_body.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/task_header.dart';
+import 'package:godofdiscipline/utils/feedback/feedback.dart';
 
 class TaskTile extends StatefulWidget {
   final String desc;
@@ -14,9 +15,11 @@ class TaskTile extends StatefulWidget {
     this.isComplete = false,
     required this.task,
     required this.isBefore,
+    required this.checkDay,
   });
 
   final Task task;
+  final VoidCallback checkDay;
 
   @override
   State<TaskTile> createState() => _TaskTileState();
@@ -24,6 +27,15 @@ class TaskTile extends StatefulWidget {
 
 class _TaskTileState extends State<TaskTile> {
   bool isOpen = false;
+
+  void failTask(String message) {
+    AppFeedback.showFeedback(
+      context: context,
+      isComplete: false,
+      message: message,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -81,7 +93,8 @@ class _TaskTileState extends State<TaskTile> {
                   isBefore: widget.isBefore,
                   changeStatus: () {
                     setState(() {
-                      widget.task.changeStatus(TaskStatus.complete);
+                      widget.task.changeStatus(TaskStatus.complete, failTask);
+                      widget.checkDay();
                     });
                   },
                 ),

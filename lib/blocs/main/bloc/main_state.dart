@@ -7,8 +7,9 @@ final class MainInitial extends MainState {}
 
 final class LoadDataState extends MainState {
   final AppUser user;
+  final List<LevelDay> days;
 
-  LoadDataState({required this.user});
+  LoadDataState({required this.user, required this.days});
 }
 
 final class FailureState extends MainState {}

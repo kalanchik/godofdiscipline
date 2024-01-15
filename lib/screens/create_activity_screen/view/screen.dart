@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:godofdiscipline/models/AppUser/app_user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:godofdiscipline/blocs/task/bloc/task_bloc.dart';
 import 'package:godofdiscipline/router/router.dart';
 import 'package:godofdiscipline/screens/create_activity_screen/widgets/date_time_selector.dart';
 import 'package:godofdiscipline/screens/create_activity_screen/widgets/task_conf.dart';
@@ -24,6 +24,8 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   late String selectedDate;
   late String selectedTime;
 
+  late final TaskBloc _bloc;
+
   void _deleteControllers() {
     titleCtrl.dispose();
     descCtrl.dispose();
@@ -38,6 +40,7 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   @override
   void initState() {
     super.initState();
+    _bloc = TaskBloc();
     titleCtrl = TextEditingController();
     descCtrl = TextEditingController();
     final nowDate = DateTime.now();
@@ -71,91 +74,72 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TaskConf(
-              titleCtrl: titleCtrl,
-              descCtrl: descCtrl,
-            ),
-            const SizedBox(
-              height: 9,
-            ),
-            DateTimeSelector(
-              selectedDate: selectedDate,
-              selectedTime: selectedTime,
-              updateDate: _updateDate,
-              updateTime: _updateTime,
-            ),
-            const SizedBox(
-              height: 186,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  TOutlineButton(
-                    text: 'Отмена',
-                    onTap: () {},
+      body: BlocBuilder<TaskBloc, TaskState>(
+        bloc: _bloc,
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                TaskConf(
+                  titleCtrl: titleCtrl,
+                  descCtrl: descCtrl,
+                ),
+                const SizedBox(
+                  height: 9,
+                ),
+                DateTimeSelector(
+                  selectedDate: selectedDate,
+                  selectedTime: selectedTime,
+                  updateDate: _updateDate,
+                  updateTime: _updateTime,
+                ),
+                const SizedBox(
+                  height: 186,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    children: [
+                      TOutlineButton(
+                        text: 'Отмена',
+                        onTap: () {},
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      TElevatedButton(
+                        text: 'Создать',
+                        onTap: _createTask,
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  TElevatedButton(
-                    text: 'Создать',
-                    onTap: _createTask,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  void _createTask() {
-    final checkTitle = _checkTitle();
-    if (!checkTitle) {
-      AppFeedback.showFeedback(
-        context: context,
-        isComplete: false,
-        message: 'Название не может быть пустым!',
-      );
-      return;
-    }
-    final checkDate = _checkSelectedDate();
-    if (!checkDate) {
-      AppFeedback.showFeedback(
-        context: context,
-        isComplete: false,
-        message: 'Вы не можете добавить задание на прошедшую дату!',
-      );
-      return;
-    }
-    GetIt.I.get<AppUser>().addTask(
-          selectedDate: selectedDate,
-          selectedTime: selectedTime,
-          title: titleCtrl.text.trim(),
-          desc: descCtrl.text.trim(),
-        );
-  }
-
-  bool _checkTitle() {
-    return titleCtrl.text.isNotEmpty;
-  }
-
-  bool _checkSelectedDate() {
-    final date = DateTime.now();
-    final curDate = DateTime(date.year, date.month, date.day);
-    final selectedSymbols = selectedDate.split('.');
-    final selectedNumbers = selectedSymbols.map((e) => int.parse(e)).toList();
-    final selDate = DateTime(
-      selectedNumbers[2],
-      selectedNumbers[1],
-      selectedNumbers[0],
+  void _showMessage(bool isError, String message) {
+    AppFeedback.showFeedback(
+      context: context,
+      isComplete: isError,
+      message: message,
     );
-    return curDate.isBefore(selDate);
+  }
+
+  void _createTask() async {
+    _bloc.add(
+      CreateTaskEvent(
+        selectedDate: selectedDate,
+        selectedTime: selectedTime,
+        taskTitle: titleCtrl.text.trim(),
+        taskDesk: descCtrl.text.trim(),
+        showMessage: _showMessage,
+      ),
+    );
   }
 
   void _updateDate(String date) {
