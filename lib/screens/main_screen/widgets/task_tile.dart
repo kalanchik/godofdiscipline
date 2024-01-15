@@ -3,12 +3,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:godofdiscipline/models/task/task.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/task_body.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/task_header.dart';
-import 'package:godofdiscipline/utils/feedback/feedback.dart';
 
 class TaskTile extends StatefulWidget {
-  final String desc;
-  final bool isComplete;
-  final bool isBefore;
   const TaskTile({
     super.key,
     this.desc = '',
@@ -16,10 +12,15 @@ class TaskTile extends StatefulWidget {
     required this.task,
     required this.isBefore,
     required this.checkDay,
+    required this.changeStatus,
   });
 
+  final String desc;
+  final bool isComplete;
+  final bool isBefore;
   final Task task;
   final VoidCallback checkDay;
+  final void Function() changeStatus;
 
   @override
   State<TaskTile> createState() => _TaskTileState();
@@ -27,14 +28,6 @@ class TaskTile extends StatefulWidget {
 
 class _TaskTileState extends State<TaskTile> {
   bool isOpen = false;
-
-  void failTask(String message) {
-    AppFeedback.showFeedback(
-      context: context,
-      isComplete: false,
-      message: message,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,20 +84,13 @@ class _TaskTileState extends State<TaskTile> {
                   time: widget.task.startTime,
                   status: widget.task.isComplete,
                   isBefore: widget.isBefore,
-                  changeStatus: () {
-                    setState(() {
-                      widget.task.changeStatus(TaskStatus.complete, failTask);
-                      widget.checkDay();
-                    });
-                  },
+                  changeStatus: widget.changeStatus,
                 ),
                 AnimatedSize(
                   duration: const Duration(milliseconds: 450),
                   curve: Curves.fastEaseInToSlowEaseOut,
                   child: isOpen
-                      ? TaskBody(
-                          desc: widget.task.desc,
-                        )
+                      ? TaskBody(desc: widget.task.desc)
                       : const SizedBox.shrink(),
                 ),
               ],

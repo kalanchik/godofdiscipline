@@ -136,6 +136,10 @@ class LevelDay {
     dayStatus = DayStatus.complete;
     return 'выполнен';
   }
+
+  void sortTasks() {
+    tasks.sort((a, b) => a.taskDateTime.compareTo(b.taskDateTime));
+  }
 }
 
 /// Возможные статусы дня [wait, complete, fail]

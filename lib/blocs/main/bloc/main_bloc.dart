@@ -32,5 +32,19 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       final days = GetIt.I.get<AppUser>().getUserDays();
       emit(LoadDataState(user: appUser, days: days));
     });
+    on<ChangeStatusEvent>((event, emit) async {
+      final response = event.changeStatus();
+      if (!response) return;
+      event.checkDay();
+      final userService = UserService();
+      final user = GetIt.I.get<AppUser>();
+      final isSaveData = await userService.updateUserLevel(
+        data: user.level.toJson(),
+        uid: user.uid,
+      );
+      if (!isSaveData) {
+        event.showMessage(false, 'Не удалось обновить данные о задаче!');
+      }
+    });
   }
 }

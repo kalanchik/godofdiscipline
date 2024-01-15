@@ -14,13 +14,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         event.showMessage(false, 'Название не можеть быть пустым');
         return;
       }
-      if (!_checkSelectedDate(event.selectedDate)) {
-        event.showMessage(
-          false,
-          'Вы не можете добавить задание на прошедшую дату!',
-        );
-        return;
-      }
+      // if (!_checkSelectedDate(event.selectedDate)) {
+      //   event.showMessage(
+      //     false,
+      //     'Вы не можете добавить задание на прошедшую дату!',
+      //   );
+      //   return;
+      // }
       final userService = UserService();
       final getIt = GetIt.I;
       getIt.get<AppUser>().addTask(

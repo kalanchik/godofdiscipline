@@ -111,9 +111,9 @@ class _MainDrawerState extends State<MainDrawer> {
                         icon: 'exit',
                         body: 'Выйти',
                         onTap: () async {
-                          AutoRouter.of(context).replace(const RegisterRoute());
                           final auth = AuthService();
                           await auth.logOut();
+                          AutoRouter.of(context).replace(const RegisterRoute());
                         },
                       ),
                     ],

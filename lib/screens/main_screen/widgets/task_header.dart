@@ -79,24 +79,26 @@ class TaskHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      desc,
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        color: isBefore
-                            ? const Color(0xFF798994)
-                            : const Color(0xFF071A2F),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              desc.isNotEmpty
+                  ? Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            desc,
+                            maxLines: 1,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              color: isBefore
+                                  ? const Color(0xFF798994)
+                                  : const Color(0xFF071A2F),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

@@ -213,7 +213,7 @@ class Level {
       completeDaysCount += 1;
       selectedDay.add(Duration(days: i + 1));
     }
-    if (completeDaysCount != levelLenght) return;
+    if (completeDaysCount < levelLenght) return;
     levelComplete();
     _nextLevel();
   }

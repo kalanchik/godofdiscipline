@@ -34,19 +34,20 @@ class Task {
     );
   }
 
-  void changeStatus(TaskStatus status, void Function(String message) failTask) {
+  bool changeStatus(TaskStatus status, void Function(String message) failTask) {
     final curDateTime = DateTime.now();
     final leftSide = taskDateTime.add(const Duration(minutes: -2));
     final rightSide = taskDateTime.add(const Duration(minutes: 2));
     if (!curDateTime.isAfter(leftSide)) {
       failTask('Вы еще не можете выполнить это задание!');
-      return;
+      return false;
     }
     if (!curDateTime.isBefore(rightSide)) {
       failTask('Вы не успели выполнить задание!');
-      return;
+      return false;
     }
     isComplete = status;
+    return true;
   }
 
   bool isCompleteTask() {

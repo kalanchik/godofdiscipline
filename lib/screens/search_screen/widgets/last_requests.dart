@@ -7,11 +7,13 @@ class LastRequests extends StatelessWidget {
     required this.searchHistory,
     required this.deleteSearchField,
     required this.clearHistory,
+    required this.selectRequest,
   });
 
   final List<String> searchHistory;
   final void Function(int index) deleteSearchField;
   final VoidCallback clearHistory;
+  final void Function(String item) selectRequest;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class LastRequests extends StatelessWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 17,
+                          horizontal: 12,
                           vertical: 15,
                         ),
                         decoration: BoxDecoration(
@@ -54,43 +56,56 @@ class LastRequests extends StatelessWidget {
                           children: [
                             ...List.generate(
                               searchHistory.length,
-                              (index) => Container(
-                                margin: EdgeInsets.only(
-                                  bottom: index == searchHistory.length - 1
-                                      ? 0
-                                      : 12,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      searchHistory[index],
-                                      style: const TextStyle(
-                                        color: Color(0xFF798994),
+                              (index) => Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    selectRequest(searchHistory[index]);
+                                  },
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 5,
+                                    ),
+                                    child: SizedBox(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            searchHistory[index],
+                                            style: const TextStyle(
+                                              color: Color(0xFF798994),
+                                            ),
+                                          ),
+                                          Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              onTap: () {
+                                                deleteSearchField(index);
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(3),
+                                                height: 20,
+                                                width: 20,
+                                                child: SizedBox(
+                                                  height: 11,
+                                                  width: 11,
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/close.svg',
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(5),
-                                        onTap: () {
-                                          deleteSearchField(index);
-                                        },
-                                        child: Container(
-                                            padding: const EdgeInsets.all(3),
-                                            height: 20,
-                                            width: 20,
-                                            child: SizedBox(
-                                              height: 11,
-                                              width: 11,
-                                              child: SvgPicture.asset(
-                                                'assets/icons/close.svg',
-                                              ),
-                                            )),
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),

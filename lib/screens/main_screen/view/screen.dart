@@ -130,7 +130,10 @@ class _MainScreenState extends State<MainScreen> {
                       padding: const EdgeInsets.only(top: 10),
                       itemCount: state.days.length,
                       itemBuilder: (context, index) {
-                        return DayContent(levelDay: state.days[index]);
+                        return DayContent(
+                          levelDay: state.days[index],
+                          bloc: _bloc,
+                        );
                       },
                     ),
                   ),

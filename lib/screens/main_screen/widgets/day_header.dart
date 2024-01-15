@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:godofdiscipline/models/levelday/levelday.dart';
 import 'package:godofdiscipline/screens/main_screen/widgets/day_action_button.dart';
 import 'package:godofdiscipline/utils/validators/validators.dart';
@@ -25,6 +26,7 @@ class DayHeader extends StatefulWidget {
 
 class _DayHeaderState extends State<DayHeader> {
   bool isOpen = false;
+  double turns = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,12 +43,21 @@ class _DayHeaderState extends State<DayHeader> {
                 onTap: () {
                   setState(() {
                     isOpen = !isOpen;
+                    turns += (1.0 / 8.0) * 4;
                   });
                 },
-                child: SizedBox(
-                  height: 13,
-                  width: 13,
-                  child: Image.asset('assets/icons/down_arrow.png'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AnimatedRotation(
+                    turns: turns,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.fastEaseInToSlowEaseOut,
+                    child: SizedBox(
+                      height: 13,
+                      width: 13,
+                      child: SvgPicture.asset('assets/icons/down_arrow.svg'),
+                    ),
+                  ),
                 ),
               )
             ],

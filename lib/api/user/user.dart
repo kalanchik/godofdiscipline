@@ -46,4 +46,13 @@ class UserService {
       return false;
     }
   }
+
+  Future<void> updateSearchHistory(
+      List<dynamic> searchHistory, String uid) async {
+    try {
+      await _db.collection('users').doc(uid).update({
+        'searchHistory': searchHistory,
+      });
+    } catch (_) {}
+  }
 }

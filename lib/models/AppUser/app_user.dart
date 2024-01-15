@@ -18,7 +18,7 @@ class AppUser {
   final String avatar;
   final Level level;
   final String uid;
-  final List<String> searchHistory;
+  List<String> searchHistory;
   final DateTime regDate;
   final UserStatistics statistics;
   final AppSettings settings;
@@ -120,6 +120,7 @@ class AppUser {
         startDate: taskDay,
       ),
     );
+    level.days[taskDay]!.sortTasks();
   }
 
   void createNextDay() {
